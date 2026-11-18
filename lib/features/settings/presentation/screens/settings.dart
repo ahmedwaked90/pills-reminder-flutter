@@ -4,6 +4,7 @@ import 'package:pills_reminder/core/styles/sizes.dart';
 import 'package:pills_reminder/core/widgets/custom_drop_down.dart';
 import 'package:pills_reminder/core/widgets/reset_notifications.dart';
 import 'package:pills_reminder/features/settings/presentation/controllers/settings_controller.dart';
+import 'package:pills_reminder/features/settings/presentation/widgets/account_section.dart';
 import 'package:pills_reminder/features/settings/presentation/widgets/custom_app_bar.dart';
 import 'package:pills_reminder/features/settings/presentation/widgets/custom_theme_dropdown.dart';
 import 'package:pills_reminder/features/settings/presentation/widgets/group_notifications.dart';
@@ -23,6 +24,7 @@ class SettingsScreen extends StatelessWidget {
           spacing: AppSizes.largePadding,
           children: [
             CustomAppBar(),
+            const AccountSection(),
             CustomDropDown(
               label: 'appLange'.tr,
               value: themeController.locale.value.languageCode,

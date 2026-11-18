@@ -290,9 +290,44 @@ dart run build_runner build --delete-conflicting-outputs
 
 ---
 
+## Cloud sync (optional)
+
+The app is offline-first by default. If you also want your medications to sync across devices, there's a Laravel 11 API in [`backend/`](backend/README.md) that the app can talk to.
+
+**Backend** — see [`backend/README.md`](backend/README.md) for the full XAMPP setup. Short version:
+
+```bash
+cd backend
+composer install
+cp .env.example .env
+php artisan key:generate
+# Create `pills_reminder` DB in phpMyAdmin, fill GOOGLE_* keys in .env, then:
+php artisan migrate
+php artisan serve        # → http://127.0.0.1:8000
+```
+
+**Flutter — build with sync enabled** — pass the backend URL and your Google **Web** OAuth client ID at build time:
+
+```bash
+flutter run \
+  --dart-define=API_BASE_URL=http://10.0.2.2:8000 \
+  --dart-define=GOOGLE_SERVER_CLIENT_ID=XXXXXX-xxxx.apps.googleusercontent.com
+```
+
+- `10.0.2.2:8000` reaches your laptop's `php artisan serve` from an Android **emulator**. From a **real phone** on the same Wi-Fi, replace it with the laptop's LAN IP, e.g. `http://192.168.1.10:8000` (and make sure the phone and laptop are on the same network and the laptop's firewall allows port 8000).
+- `GOOGLE_SERVER_CLIENT_ID` is the **Web** OAuth 2.0 client ID from Google Cloud — the same value you put in `backend/.env` as `GOOGLE_CLIENT_ID`. It's required so the Google ID token the app obtains has an `aud` the backend will accept.
+
+Then in the app: **Settings → Sign in with Google**. On first sign-in, if you already have local medications, the app asks whether to upload them or discard them.
+
+### How sync works
+
+- Every local write is tagged with a client UUID and an `updated_at` in a sidecar Hive box (your existing data is **not** migrated — adding sync won't touch your medication records).
+- `Settings → Sync Now` POSTs changes since the last sync and pulls everything that changed on the server, including tombstones for deleted rows.
+- Conflict rule: **last write wins** per record (whichever side has the newer `updated_at`). The app transparently accepts the server's version if it's newer.
+- Signing out clears the token from the keystore and reverts to offline-only behavior. Your local medications stay on the device.
+
 ## Roadmap
 
-- 🔐 **Accounts + cloud sync** — the Laravel API is scaffolded in [`backend/`](backend/README.md): Google Sign-In (Sanctum tokens) and a `POST /sync` last-write-wins endpoint for medications. The Flutter client is not yet wired to it — that's the next step.
 - 📊 Adherence stats
 - ⌚ Wear OS companion
 

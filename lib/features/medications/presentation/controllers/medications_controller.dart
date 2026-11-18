@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:pills_reminder/features/medications/data/models/medication_model.dart';
 import 'package:pills_reminder/features/medications/domain/entities/medication.dart';
 import 'package:pills_reminder/features/medications/domain/repositories/medications_repo.dart';
+import 'package:pills_reminder/features/sync/presentation/controllers/sync_controller.dart';
 
 class MedicationController extends GetxController {
   final MedicationsRepo medicationsRepo;
@@ -33,16 +34,28 @@ class MedicationController extends GetxController {
 
   Future<void> addMedication(MedicationModel med) async {
     await medicationsRepo.addMedication(med);
-    getAllMedications(); // Refresh
+    await _notifySync((s) => s.markLocalWrite(med));
+    getAllMedications();
   }
 
   Future<void> updateMedication(MedicationModel med) async {
     await medicationsRepo.updateMedication(med);
+    await _notifySync((s) => s.markLocalWrite(med));
     getAllMedications();
   }
 
   Future<void> deleteMedication(int id) async {
+    await _notifySync((s) => s.markLocalDelete(id));
     await medicationsRepo.deleteMedication(id);
     getAllMedications();
+  }
+
+  Future<void> _notifySync(Future<void> Function(SyncController) f) async {
+    if (!Get.isRegistered<SyncController>()) return;
+    try {
+      await f(Get.find<SyncController>());
+    } catch (_) {
+      // Sync bookkeeping is best-effort; never block user writes.
+    }
   }
 }

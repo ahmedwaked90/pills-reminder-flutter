@@ -92,6 +92,23 @@ class AppTranslations extends Translations {
       'conversionNormalDoneMessage':
           'All notifications with similar time have been separated.',
       'beta': 'Beta',
+      // --- Phase 2: auth + sync ---
+      'signIn': 'Sign In',
+      'signOut': 'Sign Out',
+      'signInWithGoogle': 'Continue with Google',
+      'signInSubtitle':
+          'Sign in to back up and sync your medications across devices.',
+      'continueOffline': 'Continue without an account',
+      'accountTitle': 'Account',
+      'accountSignedOut': 'Not signed in — your data stays on this device.',
+      'syncNow': 'Sync Now',
+      'lastSyncNever': 'Never synced yet',
+      'lastSyncAt': 'Last synced: @when',
+      'firstLoginTitle': 'Upload your medications?',
+      'firstLoginBody':
+          'You have @n medications on this device. Would you like to upload them to your account so they appear on your other devices?',
+      'firstLoginUpload': 'Upload',
+      'firstLoginDiscard': 'Discard local data',
     },
     'ar': {
       'appName': 'منبّه الحبوب',
@@ -181,6 +198,23 @@ class AppTranslations extends Translations {
       'conversionNormalDoneMessage':
           'كل الإشعارات المتشابهة في التوقيت قد تم تفريقها.',
       'beta': 'تجريبي',
+      // --- Phase 2: auth + sync ---
+      'signIn': 'تسجيل الدخول',
+      'signOut': 'تسجيل الخروج',
+      'signInWithGoogle': 'تابع باستخدام جوجل',
+      'signInSubtitle':
+          'سجّل الدخول لحفظ أدويتك ومزامنتها بين أجهزتك.',
+      'continueOffline': 'المتابعة بدون حساب',
+      'accountTitle': 'الحساب',
+      'accountSignedOut': 'لم تسجّل الدخول — تبقى بياناتك على هذا الجهاز فقط.',
+      'syncNow': 'مزامنة الآن',
+      'lastSyncNever': 'لم تتم المزامنة بعد',
+      'lastSyncAt': 'آخر مزامنة: @when',
+      'firstLoginTitle': 'هل ترغب برفع أدويتك؟',
+      'firstLoginBody':
+          'لديك @n دواء محفوظ على هذا الجهاز. هل ترغب برفعها إلى حسابك لتظهر على أجهزتك الأخرى؟',
+      'firstLoginUpload': 'ارفع',
+      'firstLoginDiscard': 'احذف البيانات المحلية',
     },
   };
 }
