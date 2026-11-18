@@ -292,7 +292,7 @@ dart run build_runner build --delete-conflicting-outputs
 
 ## Roadmap
 
-- 🔐 **Accounts + cloud sync** — planned next: email/password login backed by a Laravel API, so medications and schedules sync across devices. Not yet implemented; the app is currently local-only.
+- 🔐 **Accounts + cloud sync** — the Laravel API is scaffolded in [`backend/`](backend/README.md): Google Sign-In (Sanctum tokens) and a `POST /sync` last-write-wins endpoint for medications. The Flutter client is not yet wired to it — that's the next step.
 - 📊 Adherence stats
 - ⌚ Wear OS companion
 
